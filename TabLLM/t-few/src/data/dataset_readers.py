@@ -72,7 +72,7 @@ def get_dataset_reader(config):
     return dataset_class(config)
 
 
-DATASETS_OFFLINE = "/root/TabLLM/datasets_serialized"
+DATASETS_OFFLINE = "/Documents/github/TabLLM/datasets_serialized"
 MAX_EXAMPLES_PER_DATASET = 500_000
 TASK_BLACKLIST = [
     # Tasks which often tokenize to > 1024 tokens currently
@@ -230,7 +230,7 @@ class CustomCategoricalReader(BaseDatasetReader):
     def get_template(self, template_idx):
         # Add custom template
         task = self.config.dataset.split('_')[0].lower()
-        yaml_dict = yaml.load(open('/root/TabLLM/templates/templates_' + task + '.yaml', "r"),
+        yaml_dict = yaml.load(open('/Documents/github/TabLLM/templates/templates_' + task + '.yaml', "r"),
                               Loader=yaml.FullLoader)
         prompts = yaml_dict['templates']
 
