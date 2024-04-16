@@ -15,14 +15,14 @@ cuda_device=0
 num_steps=0
 eval_epoch_interval=0
 
-for model in 't011b' # 't03b'
+for model in 't03b' # 't03b'
 do
   # For zero-shot set to '0', for all to 'all'
   for num_shot in 4
   do
     # Datasets: car, income, heart, diabetes, jungle, bank, blood, calhousing, creditg, jungle
     # Run all serializations for car
-    for dataset in diabetes
+    for dataset in heart
     do
       # Zero-shot
       # eval_before_training=True
@@ -34,33 +34,33 @@ do
 
       # For all run
       if ! [[ $num_shot =~ $re ]]; then
-        # if [[ $dataset = *"income"* ]]; then
-        #   num_steps=295000
-        # fi
-        # if [[ $dataset = *"car"* ]]; then
-        #   num_steps=10500
-        # fi
-        # if [[ $dataset = *"heart"* ]]; then
-        #   num_steps=5600
-        # fi
+        if [[ $dataset = *"income"* ]]; then
+          num_steps=295000
+        fi
+        if [[ $dataset = *"car"* ]]; then
+          num_steps=10500
+        fi
+        if [[ $dataset = *"heart"* ]]; then
+          num_steps=5600
+        fi
         if [[ $dataset = *"diabetes"* ]]; then
           num_steps=4700
         fi
-        # if [[ $dataset = *"bank"* ]]; then
-        #   num_steps=272000
-        # fi
-        # if [[ $dataset = *"blood"* ]]; then
-        #   num_steps=4520
-        # fi
-        # if [[ $dataset = *"calhousing"* ]]; then
-        #   num_steps=124000
-        # fi
-        # if [[ $dataset = *"creditg"* ]]; then
-        #   num_steps=6000
-        # fi
-        # if [[ $dataset = *"jungle"* ]]; then
-        #   num_steps=270000
-        # fi
+        if [[ $dataset = *"bank"* ]]; then
+          num_steps=272000
+        fi
+        if [[ $dataset = *"blood"* ]]; then
+          num_steps=4520
+        fi
+        if [[ $dataset = *"calhousing"* ]]; then
+          num_steps=124000
+        fi
+        if [[ $dataset = *"creditg"* ]]; then
+          num_steps=6000
+        fi
+        if [[ $dataset = *"jungle"* ]]; then
+          num_steps=270000
+        fi
       fi
 
       for seed in 42 1024 0 1 32

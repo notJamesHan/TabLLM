@@ -56,12 +56,13 @@ def main():
     }
 
     # Hijack parameter for running all
-    args_datasets = ['car', 'income', 'heart', 'diabetes', 'blood', 'bank', 'jungle', 'creditg', 'calhousing']
+    # args_datasets = ['car', 'income', 'heart', 'diabetes', 'blood', 'bank', 'jungle', 'creditg', 'calhousing']
+    args_datasets = ['diabetes']
     all_results = pd.DataFrame([], index=args_datasets)
     all_results_sd = pd.DataFrame([], index=args_datasets)
     for args.dataset in args_datasets:
         # Configuration
-        data_dir = Path("/home/james/Documents/github/TabLLM/datasets")
+        data_dir = Path("/home/james/Documents/github/TabLLM/TabLLM/datasets")
         data_dir = data_dir / args.dataset
 
         models = ['lr']
@@ -69,7 +70,8 @@ def main():
         # models = ['output_datasets']
         ts = datetime.datetime.now().strftime("-%Y%m%d-%H%M%S")
         metric = 'roc_auc'  # accuracy
-        num_shots = [4, 8, 16, 32, 64, 128, 256, 512, 'all']  # , 1024, 2048, 4096, 8192, 16384, 50000, 'all']  # ['all']
+        # num_shots = [4, 8, 16, 32, 64, 128, 256, 512, 'all']  # , 1024, 2048, 4096, 8192, 16384, 50000, 'all']  # ['all']
+        num_shots=[4]
         seeds = [42, 1024, 0, 1, 32]   # , 45, 655, 186, 126, 836]
         seeded_results = defaultdict(list)
         if metric == 'roc_auc' and args.dataset == 'car':
