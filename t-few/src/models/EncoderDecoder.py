@@ -28,7 +28,7 @@ class EncoderDecoder(LightningModule):
 
         self.use_deepspeed = self.config.compute_strategy.startswith("deepspeed")
         self.use_ddp = self.config.compute_strategy.startswith("ddp")
-        self.load_model()
+        # self.load_model()
 
         self._last_global_step_saved = -1
 
@@ -331,7 +331,9 @@ class EncoderDecoder(LightningModule):
 
     def load_model(self):
         if self.config.load_weight != "":
-            trainable_states = torch.load(self.config.load_weight, map_location=torch.device("cpu"))
+            trainable_states = torch.load(self.model, map_location=torch.device("cpu"))
+            print(self.config.load_weight)
+            print(trainable_states)
             load_result = self.model.load_state_dict(trainable_states, strict=False)
             assert (
                 len(load_result.unexpected_keys) == 0

@@ -129,7 +129,7 @@ def read_dataset(task, input_file):
         # input_list = [{'note': x['note'], 'label': x['label']} for x in orig_data]
 
         # Load template
-        yaml_dict = yaml.load(open('/home/james/Documents/github/TabLLM/templates/templates_' + task + '.yaml', "r"), Loader=yaml.FullLoader)
+        yaml_dict = yaml.load(open('/home/james/Documents/github/TabLLM/TabLLM/templates/templates_' + task + '.yaml', "r"), Loader=yaml.FullLoader)
         prompts = yaml_dict['templates']
         # Return a list of prompts (usually only a single one with dataset_stash[1] name)
         templates_for_custom_tasks = {

@@ -15,14 +15,14 @@ cuda_device=0
 num_steps=0
 eval_epoch_interval=0
 
-for model in 't03b' # 't03b'
+for model in 't5' # 't03b'
 do
   # For zero-shot set to '0', for all to 'all'
   for num_shot in 4
   do
     # Datasets: car, income, heart, diabetes, jungle, bank, blood, calhousing, creditg, jungle
     # Run all serializations for car
-    for dataset in heart
+    for dataset in diabetes
     do
       # Zero-shot
       # eval_before_training=True
@@ -63,7 +63,8 @@ do
         fi
       fi
 
-      for seed in 42 1024 0 1 32
+      for seed in 42 
+      # 1024 0 1 32
       do
         CUDA_VISIBLE_DEVICES=${cuda_device} CONFIG_PATH=/home/james/Documents/github/TabLLM/t-few/configs HF_HOME=/home/james/Documents/github/TabLLM/.cache/huggingface \
         python -m src.pl_train -c ${model}.json+ia3.json+global.json -k dataset=${dataset} load_weight="pretrained_checkpoints/${model}_ia3_finish.pt" num_steps=${num_steps} num_shot=${num_shot} \

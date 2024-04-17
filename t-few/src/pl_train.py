@@ -2,7 +2,7 @@ import os
 import torch
 import argparse
 from datetime import datetime
-from transformers import AutoTokenizer, AutoModelForSeq2SeqLM
+from transformers import T5Tokenizer, T5ForConditionalGeneration
 from pytorch_lightning import Trainer
 from pytorch_lightning.loggers import TensorBoardLogger
 
@@ -14,8 +14,8 @@ from src.utils.util import ParseKwargs, set_seeds
 
 
 def get_transformer(config):
-    tokenizer = AutoTokenizer.from_pretrained(config.origin_model)
-    model = AutoModelForSeq2SeqLM.from_pretrained(config.origin_model, low_cpu_mem_usage=True)
+    tokenizer = T5Tokenizer.from_pretrained("google/flan-t5-small")
+    model = T5ForConditionalGeneration.from_pretrained("google/flan-t5-small", device_map="auto")
 
     tokenizer.model_max_length = config.max_seq_len
     model = modify_transformer(model, config)
@@ -36,9 +36,11 @@ def main(config):
         datamodule = PretrainDataModule(config, tokenizer, dataset_reader)
     else:
         datamodule = FinetuneDataModule(config, tokenizer, dataset_reader)
+        
     model = EncoderDecoder(config, tokenizer, model, dataset_reader)
     logger = TensorBoardLogger(config.exp_dir, name="log")
 
+    print("Training")
     trainer = Trainer(
         enable_checkpointing=False,
         gpus=torch.cuda.device_count(),
@@ -58,6 +60,7 @@ def main(config):
 
 
 if __name__ == "__main__":
+    torch.cuda.empty_cache()
     parser = argparse.ArgumentParser()
     parser.add_argument("-c", "--config_files", required=True)
     parser.add_argument("-k", "--kwargs", nargs="*", action=ParseKwargs, default={})
